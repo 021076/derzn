@@ -33,7 +33,8 @@ from .views import (MainZnInConstructorCreateView, QuizConstructorView,
                     relation_in_table_create_update_view,
                     row_and_column_existence, save_rel_in_tree_constructor,
                     save_zn_to_cell_in_table_from_request,
-                    show_filling_tables_page)
+                    show_filling_tables_page, check_theme_correctness_from_request,
+                    check_course_correctness_from_request)
 
 urlpatterns = [
     # квиз
@@ -141,6 +142,13 @@ urlpatterns = [
     path(
         "make_copy_of_algorithm/", make_copy_of_algorithm, name="make_copy_of_algorithm"
     ),
+    # path(
+    #         "make_copy_of_theme/", make_copy_of_theme, name="make_copy_of_theme"
+    #     ),
+    # path(
+    #         "make_copy_of_course/", make_copy_of_course, name="make_copy_of_course"
+    #     ),
+
     path(
         "delete_relation_in_tree_constructor/",
         delete_relation_in_tree_constructor,
@@ -173,6 +181,18 @@ urlpatterns = [
         check_algorithm_correctness_from_request,
         name="check_algorithm_correctness_from_request",
     ),
+
+    path(
+        "check_theme_correctness_from_request/",
+        check_theme_correctness_from_request,
+        name="check_theme_correctness_from_request",
+    ),
+    path(
+        "check_course_correctness_from_request/",
+        check_course_correctness_from_request,
+        name="check_course_correctness_from_request",
+    ),
+
     path(
         "relation_in_table_create_update_view/",
         relation_in_table_create_update_view,
@@ -190,6 +210,10 @@ urlpatterns = [
     ),
     path("get_order_of_relation/", get_order_of_relation, name="get_order_of_relation"),
     path("delete_algorithm/", delete_algorithm, name="delete_algorithm"),
+
+    # path("delete_theme/", delete_theme, name="delete_theme"),
+    # path("delete_course/", delete_course, name="delete_course"),
+
     path(
         "delete_zn_in_cell_in_table/",
         delete_zn_in_cell_in_table,

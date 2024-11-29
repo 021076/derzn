@@ -47,7 +47,8 @@ from .views import (AdminsPermissionsDeleteView, AlgorithmDetailView,
                     relation_expertise_view, relation_publication_view,
                     relation_update_view, save_text_template_view,
                     search_by_tree_view, send_message_view, send_znanie,
-                    update_user_settings)
+                    update_user_settings, CourseListView, CourseDetailView, CourseResultAdd, EditCourse, ThemeListView,
+                    ThemeDetailView, ThemeResultAdd, EditTheme)
 from .views.admin_interview_work.views import (AdminEditingKnowledgeView,
                                                AllInterviewView,
                                                InterviewQuestionsView,
@@ -96,6 +97,8 @@ from .views.special_permissions_work.view import (AdminCandidateKnowledgeView,
 from .views.subscribe_to_author_view import sub_by_author
 from .views.subscription_by_category_view import sub_by_category
 from .views.subscription_by_tag_view import sub_by_tag
+# from .views.training_detail_view import TrainingDetailView, TrainingResultAdd, EditTraining
+# from .views.training_list_view import TrainingListView
 from .views.user_suggestion_view import UserSuggestionView
 from .views.users_documents import (ChangeDocumentView, CreateDocumentView,
                                     DeleteDocumentView)
@@ -288,6 +291,20 @@ urlpatterns = [
     path("algorithm/<int:pk>/algorithm_result/", AlgorithmResultAdd.as_view()),
     path("algorithm/<int:pk>/edit_algorithm/", EditAlgorithm.as_view()),
     # --------------------------------------------------------------------------------------------------
+
+    # Обучение
+    path("all_courses/", CourseListView.as_view(), name="all_courses"),
+    path("course/<int:pk>", CourseDetailView.as_view(), name="course"),
+    path("course/<int:pk>/course_result/", CourseResultAdd.as_view()),
+    path("course/<int:pk>/edit_course/", EditCourse.as_view()),
+
+    path("all_themes/", ThemeListView.as_view(), name="all_themes"),
+    path("theme/<int:pk>", ThemeDetailView.as_view(), name="theme"),
+    path("theme/<int:pk>/theme_result/", ThemeResultAdd.as_view()),
+    path("theme/<int:pk>/edit_theme/", EditTheme.as_view()),
+
+    # --------------------------------------------------------------------------------------------------
+
     # Поиск...
     path("search/knowledge", KnowledgeSearchView.as_view(), name="search_knowledge"),
     path("search/author", AuthorSearchView.as_view(), name="search_author"),

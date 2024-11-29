@@ -57,6 +57,8 @@ class MainZnInConstructorCreateEditForm(ZnanieCreateForm):
         # Присваивание вида знания
         tz_name_mapping = {
             'algorithm': 'Алгоритм',
+            'theme': 'Тема',
+            'course': 'Курс',
             'document': 'Документ',
             'filling_tables': 'Таблица',
             'table': 'Таблица',
@@ -98,6 +100,8 @@ class DiscussionCreateEditForm(DiscussionCreateForm):
             'discussion_user': 'Дискуссии',
             'discussion_director': 'Дискуссии',
             'algorithm': 'Алгоритм',
+            'theme': 'Тема',
+            'course': 'Курс',
             'document': 'Документ',
             'filling_tables': 'Таблица',
             'table': 'Таблица',

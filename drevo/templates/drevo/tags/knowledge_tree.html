@@ -7,15 +7,22 @@
 {% endblock %}
 
 {% if is_constructor_type and is_constructor_type != 'filling_tables' and is_constructor_type != 'suggestion'%}
-    <a href="{% url 'main_znanie_in_constructor_create' type_of_zn=is_constructor_type %}" class="btn btn-success mb-1 btn-header" style="position: absolute; top: 35px; right: 160px; padding: 4px 12px;">
-        Создать {% if is_constructor_type == 'algorithm' %}алгоритм{% elif is_constructor_type == 'table' %}таблицу
-        {% elif is_constructor_type == 'quiz' %}тест {% elif is_constructor_type == 'document' %}документ {% elif is_constructor_type == 'discussion_user' or is_constructor_type == 'discussion_director' or is_constructor_type == 'discussion' %}дискуссию {% endif %}
-    </a>
+<a href="{% url 'main_znanie_in_constructor_create' type_of_zn=is_constructor_type %}"
+   class="btn btn-success mb-1 btn-header" style="position: absolute; top: 35px; right: 160px; padding: 4px 12px;">
+    Создать {% if is_constructor_type == 'algorithm' %}алгоритм{% if is_constructor_type == 'course' %}курс{% if
+    is_constructor_type == 'theme' %}тему{% elif is_constructor_type == 'table' %}таблицу
+    {% elif is_constructor_type == 'quiz' %}тест {% elif is_constructor_type == 'document' %}документ {% elif
+    is_constructor_type == 'discussion_user' or is_constructor_type == 'discussion_director' or is_constructor_type ==
+    'discussion' %}дискуссию {% endif %}
+</a>
 {% endif %}
 {% if show_searchbar %}
-<a href="" class="btn btn-success mb-1 btn-header" onclick="changeText(this)" id="search_button" data-bs-toggle="collapse" data-bs-target="#search_form" style="position: absolute; top: 5vh; right: 2.5vh; padding: 4px 12px;">
+<a href="" class="btn btn-success mb-1 btn-header" onclick="changeText(this)" id="search_button"
+   data-bs-toggle="collapse" data-bs-target="#search_form"
+   style="position: absolute; top: 5vh; right: 2.5vh; padding: 4px 12px;">
     {% if not is_advance_search %} Поиск знания {% else %} Расширенный поиск {% endif %}
-    <img src="/static/drevo/img/main_page/search.png" width="12px" style="filter: invert(95%) sepia(100%) saturate(0%) hue-rotate(190deg) brightness(929%) contrast(992%); vertical-align: text-top; margin-left: 5px;">
+    <img src="/static/drevo/img/main_page/search.png" width="12px"
+         style="filter: invert(95%) sepia(100%) saturate(0%) hue-rotate(190deg) brightness(929%) contrast(992%); vertical-align: text-top; margin-left: 5px;">
 </a>
 <form
         role="search"
@@ -27,46 +34,59 @@
 >
     {% csrf_token %}
     <div class="input-group" {% if is_advance_search %} style="width: 50%;" {% else %} style="width: 80%;" {% endif %}>
-        <input class="form-control icon me-2" style="border-radius: 8px; background-color: rgba(245, 245, 245, 0.75);" type="search" name="search_word" placeholder="Поиск по дереву" aria-label="Search" value="{{ search_word }}" {% if is_advance_search %}required {% endif %}>
+        <input class="form-control icon me-2" style="border-radius: 8px; background-color: rgba(245, 245, 245, 0.75);"
+               type="search" name="search_word" placeholder="Поиск по дереву" aria-label="Search"
+               value="{{ search_word }}" {% if is_advance_search %}required {% endif %}>
         <input class="form-control" type="text" name="knowledge_from_tree" value="{{ tree_knowledge }}" hidden>
         <div class="input-group-btn">
             {% if not is_advance_search %}
-            <button type="submit" class="btn btn-outline-success btn-header me-1" id="default_search" name="default_search">
+            <button type="submit" class="btn btn-outline-success btn-header me-1" id="default_search"
+                    name="default_search">
                 Найти
             </button>
-            <input type="submit" class="btn btn-icon" style="color: #083E2F; padding: 8px 24px; border: none;" name="advance_search" value="Расширенный поиск">
+            <input type="submit" class="btn btn-icon" style="color: #083E2F; padding: 8px 24px; border: none;"
+                   name="advance_search" value="Расширенный поиск">
             {% endif %}
         </div>
     </div>
     {% for field_data, value in user_search_param.items %}
     <div class="form-group form-check-inline py-1">
-        <input type="checkbox" class="form-check-input" id="{{ field_data.0 }}" name="{{ field_data.0 }}" {% if value %}checked{% endif %} {% if user.is_anonymous %} disabled {% endif %}>
-        <label class="form-check-label author-description" style="color: #6C757D;" for="{{ field_data.0 }}">{{ field_data.1 }}</label>
-    </div><br>
+        <input type="checkbox" class="form-check-input" id="{{ field_data.0 }}" name="{{ field_data.0 }}"
+               {% if value %}
+               checked
+               {% endif %}
+               {% if user.is_anonymous %}
+               disabled
+               {% endif %}>
+        <label class="form-check-label author-description" style="color: #6C757D;" for="{{ field_data.0 }}">{{
+            field_data.1 }}</label>
+    </div>
+    <br>
     {% endfor %}
 
     {% if is_advance_search %}
-        <div class="d-flex" style="flex-direction: row; gap: 15px;">
-            <div class="d-flex" style="flex-direction: column; width: 50%;">
-                {% for f in form %}
-                {% if f.name != 'tag' %}
-                <div class="select-wrap">
-                    <label class="search-header" for="id_{{f.name}}" style="margin-top: 15px;">{{f.label}}</label><br>
-                    {{f}}
-                </div>
-                {% endif %}
-                {% endfor %}
+    <div class="d-flex" style="flex-direction: row; gap: 15px;">
+        <div class="d-flex" style="flex-direction: column; width: 50%;">
+            {% for f in form %}
+            {% if f.name != 'tag' %}
+            <div class="select-wrap">
+                <label class="search-header" for="id_{{f.name}}" style="margin-top: 15px;">{{f.label}}</label><br>
+                {{f}}
             </div>
-            <span style="width: 50%;">
+            {% endif %}
+            {% endfor %}
+        </div>
+        <span style="width: 50%;">
                 <label class="search-header" for="id_tag" style="margin-top: 15px;">Тег</label>
                 {{form.tag}}
                 <span class="options">*{{form.tag.help_text}}</span>
             </span>
-        </div><br>
+    </div>
+    <br>
 
-        <button type="submit" class="btn btn-outline-success btn-header" name="advance_search">
-            Найти
-        </button>
+    <button type="submit" class="btn btn-outline-success btn-header" name="advance_search">
+        Найти
+    </button>
 
     {% endif %}
 </form>
@@ -74,35 +94,36 @@
 
 {% if category_nodes %}
 <div style="background-color: #FFFFFF; padding: 32px;border-radius: 10px;">
-<button type="button" class="btn tree-btn" onclick="tree{{ tree_num }}_showAll();">Развернуть</button>
-<button type="button" class="btn tree-btn" onclick="tree{{ tree_num }}_hiddenAll();">Свернуть</button>
-<ul class="root ps-0" id="tree{{ tree_num }}_root">
-    {% recursetree category_nodes %}
-    <li id="tree{{ tree_num }}_li_category_{{ node.pk }}" class="title-treeline">
-        <i class="family bi-file-plus-fill circle_icon" style="color: #F3E5AD;" onclick="toggleHiddenCategoryElementTree{{ tree_num }}(this);"></i>
+    <button type="button" class="btn tree-btn" onclick="tree{{ tree_num }}_showAll();">Развернуть</button>
+    <button type="button" class="btn tree-btn" onclick="tree{{ tree_num }}_hiddenAll();">Свернуть</button>
+    <ul class="root ps-0" id="tree{{ tree_num }}_root">
+        {% recursetree category_nodes %}
+        <li id="tree{{ tree_num }}_li_category_{{ node.pk }}" class="title-treeline">
+            <i class="family bi-file-plus-fill circle_icon" style="color: #F3E5AD;"
+               onclick="toggleHiddenCategoryElementTree{{ tree_num }}(this);"></i>
 
-        <a href="{{ node.get_absolute_url }}" class="text-dark title" style="vertical-align: 0.5vh;">
-            {{ node.name }}
-        </a>
-        {% get_category_counts category_rel_counts node.id %}
+            <a href="{{ node.get_absolute_url }}" class="text-dark title" style="vertical-align: 0.5vh;">
+                {{ node.name }}
+            </a>
+            {% get_category_counts category_rel_counts node.id %}
 
-        {% if not node.is_leaf_node %}
-        <ul class="children ps-0" hidden>
-            {{ children }}
-        </ul>
-        {% endif %}
+            {% if not node.is_leaf_node %}
+            <ul class="children ps-0" hidden>
+                {{ children }}
+            </ul>
+            {% endif %}
 
-        <ul class="children ps-0" hidden>
-            {% get_data_by_category tree_data node as category_knowledge %}
-            {% for knowledge in category_knowledge %}
-            {%for base_knowledge, knowledge_data in knowledge.items %}
-            {% include 'drevo/tags/knowledge_nodes.html' %}
-            {%endfor%}
-            {% endfor %}
-        </ul>
-    </li>
-    {% endrecursetree %}
-</ul>
+            <ul class="children ps-0" hidden>
+                {% get_data_by_category tree_data node as category_knowledge %}
+                {% for knowledge in category_knowledge %}
+                {%for base_knowledge, knowledge_data in knowledge.items %}
+                {% include 'drevo/tags/knowledge_nodes.html' %}
+                {%endfor%}
+                {% endfor %}
+            </ul>
+        </li>
+        {% endrecursetree %}
+    </ul>
 </div>
 {% else %}
 <div class="text-center mt-3">
@@ -122,45 +143,45 @@
 </div>
 
 <!-- Модальное окно для удаления знания конструктора -->
- {% if is_constructor_type and not is_constructor_type == 'filling_tables' %}
-     <div class="modal fade" id="zn_delete_modal" tabindex="-1" aria-labelledby="delete_element" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteElementModalLabel">Подтверждение удаления</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <h3 class="confirmation-of-delete">Вы действительно хотите удалить данную связь?</h3>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-success okay-delete">Ок</button>
-                    <button class="btn btn-danger" data-bs-dismiss="modal">Отмена</button>
-                </div>
+{% if is_constructor_type and not is_constructor_type == 'filling_tables' %}
+<div class="modal fade" id="zn_delete_modal" tabindex="-1" aria-labelledby="delete_element" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteElementModalLabel">Подтверждение удаления</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3 class="confirmation-of-delete">Вы действительно хотите удалить данную связь?</h3>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success okay-delete">Ок</button>
+                <button class="btn btn-danger" data-bs-dismiss="modal">Отмена</button>
             </div>
         </div>
-     </div>
- {% endif %}
+    </div>
+</div>
+{% endif %}
 
- {% if is_constructor_type == 'table' %}
-     <!-- Модальное окно для сообщения об ошибке при открытии таблицы в случае открытия конструктора таблиц-->
-     <div class="modal fade" id="table_open_error_modal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Ошибка!</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <h3 class="">Для открытия таблицы в ней должны быть хотя бы одна строка и столбец!</h3>
-                </div>
+{% if is_constructor_type == 'table' %}
+<!-- Модальное окно для сообщения об ошибке при открытии таблицы в случае открытия конструктора таблиц-->
+<div class="modal fade" id="table_open_error_modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ошибка!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3 class="">Для открытия таблицы в ней должны быть хотя бы одна строка и столбец!</h3>
             </div>
         </div>
-     </div>
- {% endif %}
+    </div>
+</div>
+{% endif %}
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <!--Script for select style and button`s text-->
 <script>
@@ -198,11 +219,11 @@
 </script>
 <!-- Search empty result notify script-->
 <script type="text/javascript">
-if ("{{ empty_result }}") {
-  $(window).on('load', function() {
-        $('#search_message').modal('show');
-    });
-}
+    if ("{{ empty_result }}") {
+      $(window).on('load', function() {
+            $('#search_message').modal('show');
+        });
+    }
 </script>
 
 <!-- Search action script-->
@@ -274,46 +295,46 @@ if ("{{ empty_result }}") {
 
 <!-- Category tree scripts-->
 <script>
-  function toggleHiddenCategoryElementTree{{ tree_num }}(element) {
-    let tree{{ tree_num }}_li_category_id = element.parentNode.id;
-    let selector_string = "li#" + tree{{ tree_num }}_li_category_id + " > ul";
+    function toggleHiddenCategoryElementTree{{ tree_num }}(element) {
+      let tree{{ tree_num }}_li_category_id = element.parentNode.id;
+      let selector_string = "li#" + tree{{ tree_num }}_li_category_id + " > ul";
 
-    let ulToHidden = document.querySelectorAll(selector_string);
-    ulToHidden.forEach(function (item) {
-      item.hidden = !item.hidden;
-    })
+      let ulToHidden = document.querySelectorAll(selector_string);
+      ulToHidden.forEach(function (item) {
+        item.hidden = !item.hidden;
+      })
 
-    if (element.classList.contains("bi-file-minus-fill")) {
-      element.classList.remove("bi-file-minus-fill")
-      element.classList.add("bi-file-plus-fill");
+      if (element.classList.contains("bi-file-minus-fill")) {
+        element.classList.remove("bi-file-minus-fill")
+        element.classList.add("bi-file-plus-fill");
+      }
+      else {
+        element.classList.remove("bi-file-plus-fill")
+        element.classList.add("bi-file-minus-fill");
+      }
     }
-    else {
-      element.classList.remove("bi-file-plus-fill")
-      element.classList.add("bi-file-minus-fill");
-    }
-  }
 </script>
 
 <!-- Knowledge tree scripts-->
 <script>
-  function toggleHiddenElementTree{{ tree_num }}(element) {
-    let tree{{ tree_num }}_li_id = element.parentNode.id;
-    let selector_string = "li#" + tree{{ tree_num }}_li_id + " > ul";
+    function toggleHiddenElementTree{{ tree_num }}(element) {
+      let tree{{ tree_num }}_li_id = element.parentNode.id;
+      let selector_string = "li#" + tree{{ tree_num }}_li_id + " > ul";
 
-    let ulToHidden = document.querySelectorAll(selector_string);
-    ulToHidden.forEach(function (item) {
-      item.hidden = !item.hidden;
-    })
+      let ulToHidden = document.querySelectorAll(selector_string);
+      ulToHidden.forEach(function (item) {
+        item.hidden = !item.hidden;
+      })
 
-    if (element.classList.contains("bi-dash-circle-fill")) {
-      element.classList.remove("bi-dash-circle-fill")
-      element.classList.add("bi-plus-circle-fill");
+      if (element.classList.contains("bi-dash-circle-fill")) {
+        element.classList.remove("bi-dash-circle-fill")
+        element.classList.add("bi-plus-circle-fill");
+      }
+      else {
+        element.classList.remove("bi-plus-circle-fill")
+        element.classList.add("bi-dash-circle-fill");
+      }
     }
-    else {
-      element.classList.remove("bi-plus-circle-fill")
-      element.classList.add("bi-dash-circle-fill");
-    }
-  }
 </script>
 
 <!-- Удаление сложного знания в конструкторе-->
@@ -326,7 +347,14 @@ if ("{{ empty_result }}") {
                 fetch(`/drevo/delete_algorithm/?id=${zn_id}`)
                     .then(response => response.json())
                     .then(data => {
-                        window.location.href = data.redirect_url;
+                         window.location.href = data.redirect_url;
+                    });
+            }
+            if (type_of_zn === 'training') {
+                fetch(`/drevo/delete_training/?id=${zn_id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                         window.location.href = data.redirect_url;
                     });
             }
             else if (type_of_zn === 'document') {

@@ -1,5 +1,9 @@
 from .algorithm_detail_view import AlgorithmDetailView, AlgorithmResultAdd, EditAlgorithm
 from .algorithm_list_view import AlgorithmListView
+from .algorithm_check_correctness_view import check_algorithm_correctness_from_request
+from .course_check_correctness_view import check_course_correctness_from_request
+from .course_detail_view import CourseDetailView, CourseResultAdd, EditCourse
+from .course_list_view import CourseListView
 from .author_detail_view import AuthorDetailView
 from drevo.views.quiz_list_view import QuizListView
 from .quiz_detail_view import QuizDetailView
@@ -29,9 +33,14 @@ from .admin_interview_work.views import (
 )
 from .favourite_processing_view import FavouriteProcessView
 from .favourites_view import FavouritesView
-from .algorithm_check_correctness_view import check_algorithm_correctness_from_request
-from .zn_constructors.supplementary_functions import make_copy_of_algorithm
+from .theme_check_correctness_view import check_theme_correctness_from_request
+from .theme_detail_view import ThemeDetailView, ThemeResultAdd, EditTheme
+from .theme_list_view import ThemeListView
 from .zn_constructors.algorithm_constructor_view import delete_algorithm
+# from .zn_constructors.course_constructor_view import delete_course
+from .zn_constructors.supplementary_functions import make_copy_of_algorithm
+# from .zn_constructors.supplementary_functions import make_copy_of_course
+
 from .zn_constructors.tree_constructor_view import (
     TreeConstructorView,
     get_tr_for_create_relation_in_tree_constructor,
@@ -157,6 +166,16 @@ __all__ = [
     "AlgorithmDetailView",
     "AlgorithmResultAdd",
     "EditAlgorithm",
+
+    "CourseListView",
+    "CourseDetailView",
+    "CourseResultAdd",
+    "EditCourse",
+    "ThemeListView",
+    "ThemeDetailView",
+    "ThemeResultAdd",
+    "EditTheme",
+
     "CommentPageView",
     "CommentSendView",
     "DrevoListView",
@@ -187,7 +206,7 @@ __all__ = [
     "delete_element_of_relation",
     "friends_view",
     "friends_added_view",
-    "friends_invite_view",
+    # "friends_invite_view",
     "FavouriteProcessView",
     "propose_answer",
     "QuestionExpertWorkPage",
@@ -261,6 +280,10 @@ __all__ = [
     'QuizConstructorView',
     'save_rel_in_tree_constructor',
     'make_copy_of_algorithm',
+
+    # 'make_copy_of_course',
+    # 'make_copy_of_theme',
+
     'delete_relation_in_tree_constructor',
     'get_tr_for_edit_relation_in_tree_constructor',
     'edit_znanie_in_tree_constructor',
@@ -269,11 +292,18 @@ __all__ = [
     'delete_complex_zn',
     'create_zn_for_cell',
     'check_algorithm_correctness_from_request',
+
+    'check_course_correctness_from_request',
+    'check_theme_correctness_from_request',
+
     'relation_in_table_create_update_view',
     'element_of_group_in_table_create_update_view',
     'edit_main_zn_in_constructor',
     'get_order_of_relation',
     'delete_algorithm',
+
+    # 'delete_course',
+    # 'delete_theme',
     'delete_zn_in_cell_in_table',
 
 ]

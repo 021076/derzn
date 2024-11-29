@@ -1,0 +1,30 @@
+{% extends 'drevo/base.html' %}
+{% load knowledge_tree %}
+{% load static %}
+
+{% block cssfiles %}
+<link rel="stylesheet" href="{% static '/drevo/css/drevo.css' %}">
+{% endblock %}
+
+{% block title %}Курсы{% endblock %}
+
+{% block content %}
+<div class="container header_info p-0">
+    <h1>Курсы</h1>
+    <nav style="--bs-breadcrumb-divider: '-';" class="mt-3">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'drevo' %}">Главная</a></li>
+          <li class="breadcrumb-item opened"><a>Курсы</a></li>
+        </ol>
+    </nav>
+</div>
+<div>
+    {% if all_courses %}
+        {% build_knowledge_tree queryset=all_courses empty_tree_message='Нет доступных курсов' show_complex=True %}
+    {% else %}
+        <div class="text-center mt-3 basic">
+            <p class="fs-4">Нет доступных курсов</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

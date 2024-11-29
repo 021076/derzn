@@ -8,6 +8,10 @@ let add_rel_zn = $('#add_rel_zn');
 let edit_rel_zn = $('#edit_rel_zn');
 let create_edit_relation_modal = $('#create_edit_relation_modal');
 let edit_main_algorithm = document.getElementById('edit_main_zn_form');
+
+let edit_main_theme = document.getElementById('edit_main_zn_form');
+let edit_main_course = document.getElementById('edit_main_zn_form');
+
 let edit_zn = document.getElementById('edit_zn_form');
 let create_zn = document.getElementById('create_zn');
 let for_rel_type = $('#for_rel_type');
@@ -301,6 +305,22 @@ function deleteMainZnanie(type_of_zn, zn_id) {
                 });
         })
     }
+
+    elif (type_of_zn === 'course') {
+        $('.delete-confirmation').text(`Вы действительно хотите удалить этот курс? Все связанные знания также удалятся!`)
+        $('#delete_element_warning').modal("show");
+        $('.js-okay-successful').click(function () {
+            fetch(`/drevo/delete_course/?id=${zn_id}`)
+                .then(response => {
+                    $('#delete_element_warning').modal("hide");
+                    $('#success_delete_main_zn').modal("show");
+                })
+                .catch((error) => {
+                    console.log('Error:', error);
+                });
+        })
+    }
+
     else if (type_of_zn === 'document') {
         $('.delete-confirmation').text(`Вы действительно хотите удалить этот документ? Все связанные знания также удалятся!`)
         $('#delete_element_warning').modal("show");

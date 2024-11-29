@@ -31,6 +31,8 @@ class ZnaniyaForConstructorView(LoginRequiredMixin, DispatchMixin, TemplateView)
         """Метод для получения опубликованных сложных знаний конкретного вида в компетенции эксперта"""
         tz_name_mapping = {
             'algorithm': 'Алгоритм',
+            'course': 'Курс',
+            'theme': 'Тема',
             'document': 'Документ',
             'filling_tables': 'Таблица',
             'table': 'Таблица',
@@ -62,6 +64,8 @@ class ZnaniyaForConstructorView(LoginRequiredMixin, DispatchMixin, TemplateView)
             'table': 'Конструктор таблиц',
             'quiz': 'Конструктор тестов',
             'algorithm': 'Конструктор алгоритмов',
+            'course': 'Конструктор курсов',
+            'theme': 'Конструктор тем',
             'document': 'Конструктор документов',
             'discussion': 'Дискуссии для экспертов',
             'discussion_user': 'Дерево Дискуссий',
@@ -96,6 +100,8 @@ class MainZnInConstructorCreateView(LoginRequiredMixin, DispatchMixin, CreateVie
         context['action'] = 'create'
         title_mapping = {
             'algorithm': 'Создание алгоритма',
+            'course': 'Создание курса',
+            'theme': 'Создание темы',
             'document': 'Создание документа',
             'table': 'Создание таблицы',
             'quiz': 'Создание теста',
@@ -140,7 +146,7 @@ class MainZnInConstructorCreateView(LoginRequiredMixin, DispatchMixin, CreateVie
             knowledge = form.save(commit=False)
             create_zn_for_constructor(knowledge, form, request, author=True, image_form=image_form)
             self.object = knowledge
-            if self.type_of_zn in ('algorithm', 'document', 'discussion_director', 'discussion_user', 'discussion'):
+            if self.type_of_zn in ('algorithm', 'course', 'theme', 'document', 'discussion_director', 'discussion_user', 'discussion'):
                 return HttpResponseRedirect(reverse('tree_constructor', kwargs={'type': self.type_of_zn, 'pk': knowledge.pk}))
             elif self.type_of_zn == 'quiz':
                 return HttpResponseRedirect(reverse('quiz_constructor', kwargs={'pk': knowledge.pk}))

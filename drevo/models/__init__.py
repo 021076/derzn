@@ -33,6 +33,8 @@ from .relation_statuses import RelationStatuses
 from .questions import QuestionToKnowledge
 from .answers import UserAnswerToQuestion
 from .users_algorithm_elements import AlgorithmAdditionalElements
+from .users_course_elements import CourseAdditionalElements
+from .users_theme_elements import ThemeAdditionalElements
 from .suggestion import Suggestion
 from .suggestion_type import SuggestionType
 from .vars import TemplateObject

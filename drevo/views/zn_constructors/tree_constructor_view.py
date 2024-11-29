@@ -47,10 +47,11 @@ class TreeConstructorView(LoginRequiredMixin, DispatchMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         type_of_zn = self.kwargs.get('type')
         selected_zn = Znanie.objects.filter(id=self.kwargs.get('pk')).first()
-        if (type_of_zn == 'algorithm' and selected_zn.tz.name != 'Алгоритм') or (type_of_zn == 'document' and
-                                                                                 selected_zn.tz.name != 'Документ') \
-                or (type_of_zn == 'discussion_user' or type_of_zn == 'discussion_director' or type_of_zn == 'discussion' and
-                    selected_zn.tz.name != 'Дискуссии'):
+        if (type_of_zn == 'algorithm' and selected_zn.tz.name != 'Алгоритм') or (
+                type_of_zn == 'course' and selected_zn.tz.name != 'Курс') or (
+                type_of_zn == 'theme' and selected_zn.tz.name != 'Тема') or (
+                type_of_zn == 'document' and selected_zn.tz.name != 'Документ') or (
+                type_of_zn == 'discussion_user' or type_of_zn == 'discussion_director' or type_of_zn == 'discussion' and selected_zn.tz.name != 'Дискуссии'):
             return HttpResponseRedirect(reverse('drevo'))
 
         return super().get(request, *args, **kwargs)
@@ -79,7 +80,11 @@ class TreeConstructorView(LoginRequiredMixin, DispatchMixin, TemplateView):
                 )['previous_key']
             except Relation.DoesNotExist:
                 context['relative_znaniya'] = []
-        else:
+        elif type_of_zn == 'theme':
+            context['title'] = 'Конструктор темы'
+            context['relative_znaniya'] = get_descendants_for_knowledge(selected_zn)
+
+        elif type_of_zn == 'document':
             context['title'] = 'Конструктор документа'
             context['relative_znaniya'] = get_descendants_for_knowledge(selected_zn)
 

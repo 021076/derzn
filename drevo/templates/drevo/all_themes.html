@@ -1,0 +1,30 @@
+{% extends 'drevo/base.html' %}
+{% load knowledge_tree %}
+{% load static %}
+
+{% block cssfiles %}
+<link rel="stylesheet" href="{% static '/drevo/css/drevo.css' %}">
+{% endblock %}
+
+{% block title %}Дерево создаваемых тем занятий{% endblock %}
+
+{% block content %}
+<div class="container header_info p-0">
+    <h1>Дерево создаваемых тем занятий</h1>
+    <nav style="--bs-breadcrumb-divider: '-';" class="mt-3">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'drevo' %}">Главная</a></li>
+          <li class="breadcrumb-item opened"><a>Дерево создаваемых тем занятий</a></li>
+        </ol>
+    </nav>
+</div>
+<div>
+    {% if all_themes %}
+        {% build_knowledge_tree queryset=all_themes empty_tree_message='Нет доступных тем' show_complex=True %}
+    {% else %}
+        <div class="text-center mt-3 basic">
+            <p class="fs-4">Нет доступных тем</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
